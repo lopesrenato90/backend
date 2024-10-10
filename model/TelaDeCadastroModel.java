@@ -1,7 +1,7 @@
 package model;
 
 import java.sql.*;
-import controller.*;
+//import controller.*;
 
 
 public class TelaDeCadastroModel {
