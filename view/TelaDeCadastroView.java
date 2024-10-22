@@ -77,7 +77,7 @@ public class TelaDeCadastroView extends JFrame
             }
         );
 
-        setSize(250, 600);
+        setSize(250, 250);
         setVisible(true);
     }
 
@@ -85,8 +85,9 @@ public class TelaDeCadastroView extends JFrame
         return "<html><body>" + strTexto + "</body></html>";
     }
 
+    public static TelaDeCadastroView appTelaDeCadastroView;
     public static void main(String[] args) {
-        TelaDeCadastroView appTelaDeCadastroView = new TelaDeCadastroView();
+        appTelaDeCadastroView = new TelaDeCadastroView();
         appTelaDeCadastroView.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }
