@@ -1,8 +1,53 @@
-public class RenameFile {
+import javax.swing.*;
+import static java.nio.file.StandardCopyOption.*;
+import java.nio.file.*;
 
+public class RenameFile {
     public static void renomearArquivo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'renomearArquivo'");
+        try {
+            JFileChooser chooser = new JFileChooser();
+
+            chooser.setDialogTitle("Selecione o arquivo que deseja renomear");
+            chooser.setApproveButtonText("Selecionar arquivo");
+            int returnVal1 = chooser.showOpenDialog(null);
+            String fileFullPath = "";
+            String folderFullPath = "";
+            String fileName = "";
+
+            String fileAleatoryName = "file-" + String.valueOf(Math.random());
+            
+            if(returnVal1 == JFileChooser.APPROVE_OPTION) {
+                fileFullPath = chooser.getSelectedFile().getAbsolutePath();
+                folderFullPath = chooser.getSelectedFile().getParent();
+                fileName = chooser.getSelectedFile().getName();
+            } else {
+                System.out.println("Que pena!");
+            }
+
+            String newFileName = JOptionPane.showInputDialog(null, "Digite o nome do arquivo", fileName );
+
+            Path pathOrigin = Paths.get(fileFullPath);
+            Path pathDestination = Paths.get(folderFullPath + "\\" + newFileName);
+            Path pathTemp = Paths.get(folderFullPath + "\\" + fileAleatoryName);
+
+            if (
+                fileFullPath.length() > 0 &&
+                folderFullPath.length() > 0 &&
+                fileName.length() > 0 &&
+                newFileName.length() > 0 ) {
+                    Files.copy(pathOrigin, pathTemp, REPLACE_EXISTING);
+                    Files.delete(pathOrigin);
+                    Files.copy(pathTemp, pathDestination, REPLACE_EXISTING);
+                    Files.delete(pathTemp);
+                    if (!fileName.equals(newFileName)) {
+                        Files.delete(pathOrigin);
+                    }
+                    System.out.println("Arquivo" + chooser.getSelectedFile().getName() + "renomeado com sucesso.");
+                } else {
+                    System.out.println("Ops! Não foi possível renomear o arquivo. Porfavor, verifique e tente novamente mais tarde.");
+                }
+            } catch (Exception e) {
+                System.out.println("Não foi possível renomear o arquivo. Erro: " + e);
+            }
+        }
     }
-    
-}
