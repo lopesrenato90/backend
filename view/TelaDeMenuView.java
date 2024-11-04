@@ -6,11 +6,15 @@ import javax.swing.*;
 
 public class TelaDeMenuView extends JFrame {
     public JMenu cadastroMenu;
+    public JMenu arquivoMenu;
 
     public JMenuItem novoItem;
     public JMenuItem pesquisarItem;
     public JMenuItem atualizarItem;
     public JMenuItem removerItem;
+
+    public JMenuItem sobreItem;
+    public JMenuItem sairItem;
 
     public JMenuBar barraDeMenu;
 
@@ -21,7 +25,11 @@ public class TelaDeMenuView extends JFrame {
 
         barraDeMenu = new JMenuBar();
 
+        arquivoMenu = new JMenu("Arquivo");
         cadastroMenu = new JMenu("Cadastro");
+
+        sobreItem = new JMenuItem("Sobre");
+        sairItem = new JMenuItem("Sair");
 
         novoItem = new JMenuItem("Novo");
         pesquisarItem = new JMenuItem("Pesquisar");
@@ -30,10 +38,17 @@ public class TelaDeMenuView extends JFrame {
 
         lblTelaDeMenu = new JLabel("Tela de Menu", SwingConstants.CENTER);
 
+        arquivoMenu.add(sobreItem);
+        arquivoMenu.add(sairItem);
+
         cadastroMenu.add(novoItem);
         cadastroMenu.add(pesquisarItem);
         cadastroMenu.add(atualizarItem);
         cadastroMenu.add(removerItem);
+
+        arquivoMenu.setMnemonic('A');
+        sobreItem.setMnemonic('S');
+        sairItem.setMnemonic('r');
 
         cadastroMenu.setMnemonic('C');
         novoItem.setMnemonic('N');
@@ -41,11 +56,30 @@ public class TelaDeMenuView extends JFrame {
         atualizarItem.setMnemonic('A');
         removerItem.setMnemonic('R');
 
+        barraDeMenu.add(arquivoMenu);
         barraDeMenu.add(cadastroMenu);
 
         setJMenuBar(barraDeMenu);
 
         add(lblTelaDeMenu, BorderLayout.CENTER);
+
+        sobreItem.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    JOptionPane.showMessageDialog(null, "Sistema de Cadastro Senac 2024");
+                }
+            }
+        );
+
+        sairItem.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    System.exit(0);
+                }
+            }
+        );
 
         novoItem.addActionListener(
             new ActionListener() {
@@ -55,6 +89,7 @@ public class TelaDeMenuView extends JFrame {
                 }
             }
         );
+
         pesquisarItem.addActionListener(
             new ActionListener() {
                 @Override
@@ -63,6 +98,7 @@ public class TelaDeMenuView extends JFrame {
                 }
             }
         );
+
         atualizarItem.addActionListener(
             new ActionListener() {
                 @Override
@@ -71,6 +107,7 @@ public class TelaDeMenuView extends JFrame {
                 }
             }
         );
+
         removerItem.addActionListener(
             new ActionListener() {
                 @Override
@@ -80,13 +117,22 @@ public class TelaDeMenuView extends JFrame {
             }
         );
 
-        setSize(500, 500);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(500,500);
         setVisible(true);
     }
 
     public static TelaDeMenuView appTelaDeMenuView;
     public static void main(String[] args) {
         appTelaDeMenuView = new TelaDeMenuView();
+        appTelaDeMenuView.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        appTelaDeMenuView.addWindowListener(
+            new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    InterfaceView.removerImagensInuteis();
+                }
+            }
+        );
+
     }
 }

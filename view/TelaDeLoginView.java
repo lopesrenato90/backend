@@ -43,7 +43,9 @@ public class TelaDeLoginView extends JFrame
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent event) {
-                    TelaDeLoginController.logarController(txtLogin.getText(), String.valueOf(txtSenha.getPassword()));
+                    if (validarCampos() == true) {
+                        TelaDeLoginController.logarController(txtLogin.getText(), String.valueOf(txtSenha.getPassword()));
+                    }
                 }
             }
         );
@@ -52,7 +54,7 @@ public class TelaDeLoginView extends JFrame
             new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent event) {
-                    if (validarCampos() == true) {
+                    if (event.getKeyCode() == 10 && validarCampos() == true) {
                         TelaDeLoginController.logarController(txtLogin.getText(), String.valueOf(txtSenha.getPassword()));
                     }
                 }
@@ -81,8 +83,7 @@ public class TelaDeLoginView extends JFrame
             }
         );
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(150, 600);
+        setSize(200, 600);
         setVisible(true);
     }
 
@@ -107,6 +108,7 @@ public class TelaDeLoginView extends JFrame
     public static TelaDeLoginView appTelaDeLoginView;
     public static void main(String[] args) {
         appTelaDeLoginView = new TelaDeLoginView();
-        // appTelaDeLoginView.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        appTelaDeLoginView.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        InterfaceView.definirIcone(appTelaDeLoginView);
     }
 }
