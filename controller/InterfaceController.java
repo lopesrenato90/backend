@@ -1,9 +1,10 @@
 package controller;
-
 import model.*;
 import view.*;
 import java.io.*;
 import java.util.*;
+import javax.swing.*;
+import java.awt.*;
 
 public class InterfaceController extends InterfaceView {
     public static final String localViewImgFolder = System.getProperty("user.dir") 
@@ -11,11 +12,16 @@ public class InterfaceController extends InterfaceView {
         + "src"
         + "\\" 
         + "view"
-        + "\\" 
+        + "\\"
         + "img";
-    public static String imgPadrao;
 
-    private static final Random random = new Random();
+    public static final String localViewFolder = System.getProperty("user.dir") 
+        + "\\" 
+        + "src"
+        + "\\" 
+        + "view";
+
+    public static final Icon imgPadrao = new ImageIcon(new ImageIcon(localViewFolder + "\\imagem-padrao.jpg").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
 
     public static void verificarApagarImagensInuteis() {
         final File folder = new File(localViewImgFolder);
@@ -25,30 +31,39 @@ public class InterfaceController extends InterfaceView {
 
     public static ArrayList<String> listFilesForFolder(final File folder) {
         ArrayList<String> strFiles = new ArrayList<String>();
-        if (folder.exists() && folder.isDirectory()) {
-            for (final File fileEntry : folder.listFiles()) {
-                if (fileEntry != null) {
-                    if (fileEntry.isDirectory()) {
-                        strFiles.addAll(listFilesForFolder(fileEntry));
-                    } else {
-                        strFiles.add(fileEntry.getName());
-                        System.out.println(fileEntry.getName());
-                    }
-                }
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+            } else {
+                strFiles.add(fileEntry.getName());
+                // System.out.println(fileEntry.getName());
             }
-        } else {
-            System.out.println("O diretório não existe ou não é um diretório válido.");
         }
         return strFiles;
     }
 
-    public static String gerarNomeArquivoAleatorio(int n) {
-        // Gerar um número aleatório
-        int randomNumber = random.nextInt();
-        return String.format("file-%d-%d", n, randomNumber);
+    public static String gerarNomeAleatorio() {
+        return String.format("file-%s", Math.random());
     }
 
-    public static void main(String[] args) {
-        System.out.println(gerarNomeArquivoAleatorio(3));
+    public static void addComponent(JFrame frame, GridBagLayout gbLayout, GridBagConstraints gbConstraints, Component component, int row, int column, int width, int height) {
+        try {
+            if (height > 1 && height > 1) {
+                gbConstraints.fill = GridBagConstraints.BOTH;
+            } else if (height > 1) {
+                gbConstraints.fill = GridBagConstraints.VERTICAL;
+            } else {
+                gbConstraints.fill = GridBagConstraints.HORIZONTAL;
+            }
+
+            gbConstraints.gridy = row;
+            gbConstraints.gridx = column;
+            gbConstraints.gridwidth = width;
+            gbConstraints.gridheight = height;
+            gbLayout.setConstraints(component, gbConstraints);
+            frame.add(component);
+        } catch (Exception e) {
+            System.err.println("Erro: " + e);
+        }
     }
 }
